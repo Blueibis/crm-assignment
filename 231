@@ -1,0 +1,35 @@
+jennie = Contact.create("Jennie", "Li", "email")           # => #<Contact:0x0055b16a746938 @first_name="Jennie", @last_name="Li", @email="email", @note="I'm a contact", @id=1>
+mouse = Contact.create("mouse", "keyboard", "emaiiemail")  # => #<Contact:0x0055b16a7417d0 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=2>
+Contact.all                                                # => [#<Contact:0x0055b16a746938 @first_name="Jennie", @last_name="Li", @email="email", @note="I'm a contact", @id=1>, #<Contact:0x0055b16a7417d0 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=2>]
+Contact.find(2)                                            # => #<Contact:0x0055b16a7417d0 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=2>
+Contact.all                                                # => [#<Contact:0x0055b16a746938 @first_name="Jennie", @last_name="Li", @email="email", @note="I'm a contact", @id=1>, #<Contact:0x0055b16a7417d0 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=2>]
+jennie.update("first_name", "JenJen")                      # => "JenJen"
+jennie.full_name                                           # => "JenJen Li"
+Contact.find_by("first_name", "JenJen")
+
+jennie = Contact.create("Jennie", "Li", "email")           # => #<Contact:0x005560839b6e58 @first_name="Jennie", @last_name="Li", @email="email", @note="I'm a contact", @id=3>
+mouse = Contact.create("mouse", "keyboard", "emaiiemail")  # => #<Contact:0x005560839b5e40 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=4>
+Contact.all                                                # => [#<Contact:0x005560839bd960 @first_name="JenJen", @last_name="Li", @email="email", @note="I'm a contact", @id=1>, #<Contact:0x005560839bd618 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=2>, #<Contact:0x005560839b6e58 @first_name="Jennie", @last_name="Li", @email="email", @note="I'm a contact", @id=3>, #<Contact:0x005560839b5e40 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=4>]
+Contact.find(2)                                            # => #<Contact:0x005560839bd618 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=2>
+Contact.all                                                # => [#<Contact:0x005560839bd960 @first_name="JenJen", @last_name="Li", @email="email", @note="I'm a contact", @id=1>, #<Contact:0x005560839bd618 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=2>, #<Contact:0x005560839b6e58 @first_name="Jennie", @last_name="Li", @email="email", @note="I'm a contact", @id=3>, #<Contact:0x005560839b5e40 @first_name="mouse", @last_name="keyboard", @email="emaiiemail", @note="I'm a contact", @id=4>]
+jennie.update("first_name", "JenJen")                      # => "JenJen"
+jennie.full_name                                           # => "JenJen Li"
+Contact.find_by("first_name", "JenJen")                    # => [#<Contact:0x005560839bd960 @first_name="JenJen", @last_name="Li", @email="email", @note="I'm a contact", @id=1>, #<Contact:0x005560839b6e58 @first_name="JenJen", @last_name="Li", @email="email", @note="I'm a contact", @id=3>]
+new_crm = CRM.new("My New App")
+
+puts "Are you removing a contact by their ID or something else?"
+result = gets.chomp
+result.downcase!
+puts "Enter the id now"
+id = gets.to_i
+if result == "id"
+  Contact.find(id)
+  puts + "has been deleted from contact list."
+else
+  puts "What attribute do you want to search by?\n[first_name]\n[last_name]\n[email]\n[note]"
+  attribute = gets.chomp
+  puts "Who are you searching for?"
+  value = gets.chomp
+  value.capitalize!
+  Contact.find_by(attribute, value).delete
+  puts Contact.find_by(attribute, value).full_name + "has been deleted from contact list."
