@@ -30,9 +30,8 @@ class Contact
   # and return the contact who has that id
   def self.find(id)
     @@contacts.each do |contact|
-      result = contact if contact.id == id
+      return contact if contact.id == id
     end
-    result
   end
 
   # This method should allow you to specify
@@ -57,10 +56,9 @@ class Contact
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
   def self.find_by(attribute, value)
-    result = @@contacts.select do |contact|
-      contact.send(attribute) == value
+    @@contacts.each do |contact|
+      return contact if contact.send(attribute) == value
     end
-    result
   end
 
   # This method should delete all of the contacts
