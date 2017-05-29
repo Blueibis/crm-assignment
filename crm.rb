@@ -45,19 +45,25 @@ class CRM
     email = gets.chomp
     print 'Enter a Note: '
     note = gets.chomp
-    Contact.create(first_name, last_name, email, note)
+    contact = Contact.create(
+        first_name: first_name,
+        last_name:  last_name,
+        email:      email,
+        note:       note
+      )
   end                                                   # => :add_new_contact
 
   def modify_existing_contact
     puts "Who are you updating?"
-    name = gets.chomp
-    name.capitalize!
+    who = gets.chomp
+    who.capitalize!
     puts "Which attribute are you changing?"
     attribute = gets.chomp
     attribute.downcase!
     puts "And what are you changing it to?"
     value = gets.chomp
-    Contact.update(name, attribute, value)
+    contact = Contact.find_by(first_name: who)
+    contact.update(attribute => value)
     puts "Changes made"
   end  # => :modify_existing_contact
 
@@ -68,7 +74,7 @@ class CRM
     if result == "id"
       puts "Enter the id now"
       eyed = gets.to_i
-      Contact.delete_by_id(eyed)
+      contact = Contact.delete(eyed)
       puts "Deleted #{Contact.find(eyed)}from contact list."
     else
       puts "What attribute do you want to search by?\n[first_name]\n[last_name]\n[email]\n[note]"
@@ -76,7 +82,8 @@ class CRM
       puts "Who are you searching for?"
       value = gets.chomp
       value.capitalize!
-      Contact.delete_by_attribute(attribute, value)
+      contact = Contact.find_by(attribute => value)
+      contact.delete
       puts "#{Contact.find_by(attribute, value)} has been deleted from contact list."
     end
   end                                                                                              # => :delete_contact
@@ -91,12 +98,17 @@ class CRM
     puts "Who are you searching for?"
     value = gets.chomp
     value.capitalize!
-    Contact.find_by(attribute, value)
-    puts Contact.find_by(attribute, value)
+    Contact.find_by(attribute => value)
+    puts Contact.find_by(attribute => value)
   end                                                                                            # => :search_by_attribute
 
 
 end                                                        # => :search_by_attribute
+
+
+at_exit do
+  ActiveRecord::Base.connection.close
+end
 
                           # => #<CRM:0x005560839ad768 @name="My New App">
 
